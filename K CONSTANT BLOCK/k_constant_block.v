@@ -7,7 +7,7 @@ module k_constant_block (
     output reg [31:0] k_out
 );
 
-    // Define the 64 K constants for SHA-256 (first 32 bits of the fractional parts of the cube roots of the first 64 primes)
+    // Define the 64 K constants for SHA-256 (fractional parts of cube roots of first 64 primes)
     reg [31:0] k_constants [0:63];
     initial begin
         k_constants[0]  = 32'h428a2f98;

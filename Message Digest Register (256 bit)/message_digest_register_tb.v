@@ -21,7 +21,7 @@ module message_digest_register_tb;
     // Tạo tín hiệu đồng hồ
     initial begin
         clk = 0;
-        forever #5 clk = ~clk; // Chu kỳ đồng hồ 10ns
+        forever #8 clk = ~clk; // Chu kỳ đồng hồ 16ns (tương ứng 62.5 MHz)
     end
 
     // Quá trình kiểm tra
@@ -30,25 +30,25 @@ module message_digest_register_tb;
         reset = 1;
         update = 0;
         new_digest = 256'h0;
-        #20;
+        #24;
         
         // Hủy reset
         reset = 0;
-        #10;
+        #16;
         
-        // Cập nhật giá trị băm mới
+        // Cập nhật với giá trị băm mới (testcase 1: mã hóa một khối)
         update = 1;
-        new_digest = 256'h6a09e667bb67ae853c6ef372a54ff53a510e527f9b05688c1f83d9ab5be0cd1a;
-        #10;
+        new_digest = 256'hba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad; // SHA-256("abc")
+        #16;
         update = 0;
-        #20;
+        #32;
         
-        // Cập nhật giá trị băm khác
+        // Cập nhật với giá trị băm khác (testcase 2: dữ liệu dài)
         update = 1;
-        new_digest = 256'h7a0b9e68cc6baf854de7f373b54gf53b510e527f9b05688c1f83d9ab5be0cd2b;
-        #10;
+        new_digest = 256'he9b5b33f5c64c623175ac6e0e0e8e3a4f7e84b8f5d5b9c5e0e8e3a4f7e84b8f; // Giá trị mẫu
+        #16;
         update = 0;
-        #20;
+        #32;
         
         // Kết thúc mô phỏng
         $finish;

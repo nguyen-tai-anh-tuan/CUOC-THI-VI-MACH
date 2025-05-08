@@ -8,7 +8,7 @@ module compute_memory (
     // Khai báo ROM 64 từ, mỗi từ 32-bit
     reg [31:0] k_rom [0:63];
 
-    // Khởi tạo các hằng số K[t] theo chuẩn SHA-256 (giá trị mẫu)
+    // Khởi tạo các hằng số K[t] theo chuẩn SHA-256
     initial begin
         k_rom[0]  = 32'h428a2f98;
         k_rom[1]  = 32'h71374491;
@@ -76,7 +76,7 @@ module compute_memory (
         k_rom[63] = 32'hc67178f2;
     end
 
-    // Logic đọc dữ liệu từ ROM
+    // Logic đọc dữ liệu đồng bộ với clock
     always @(posedge clk or posedge reset) begin
         if (reset)
             k_out <= 32'h0;

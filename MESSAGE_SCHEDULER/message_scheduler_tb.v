@@ -30,7 +30,7 @@ module message_scheduler_tb;
         #20;
         reset = 0;
 
-        // Test case 1: Simple message block
+        // Test case 1: Message block with "abc" padded (per SHA-256 standard)
         msg_block = 512'h61626380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018;
         #200;
 

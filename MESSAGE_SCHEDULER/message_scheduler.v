@@ -8,7 +8,7 @@ module message_scheduler (
 );
 
     integer i;
-    reg [31:0] w_temp [0:63];
+    reg [31:0] s0, s1;
 
     // Initialize the first 16 words directly from the message block
     always @(posedge clk or posedge reset) begin
@@ -19,13 +19,13 @@ module message_scheduler (
         end else begin
             // Load first 16 words (0-15)
             for (i = 0; i < 16; i = i + 1) begin
-                w[i] <= msg_block[(511 - 32*i) -: 32];
+                w[i] <= msg_block[(511 - (i * 32)) -: 32];
             end
             // Compute remaining words (16-63)
             for (i = 16; i < 64; i = i + 1) begin
-                w_temp[i] <= w[i-2] + {w[i-7][6:0], w[i-7][31:7]} + 
-                            {w[i-15][17:0], w[i-15][31:18]} + w[i-16];
-                w[i] <= w_temp[i];
+                s0 = (w[i-15] >> 7) ^ (w[i-15] >> 18) ^ (w[i-15] >> 3);  // σ0
+                s1 = (w[i-2] >> 17) ^ (w[i-2] >> 19) ^ (w[i-2] >> 10);  // σ1
+                w[i] <= w[i-16] + s0 + w[i-7] + s1;
             end
         end
     end

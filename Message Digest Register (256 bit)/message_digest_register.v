@@ -11,13 +11,12 @@ module message_digest_register (
         digest = 256'h6a09e667bb67ae853c6ef372a54ff53a510e527f9b05688c1f83d9ab5be0cd19;
     end
 
+    // Logic cập nhật giá trị băm
     always @(posedge clk or posedge reset) begin
         if (reset) begin
-            // Reset về giá trị ban đầu của SHA-256
             digest <= 256'h6a09e667bb67ae853c6ef372a54ff53a510e527f9b05688c1f83d9ab5be0cd19;
         end
         else if (update) begin
-            // Cập nhật giá trị băm mới
             digest <= new_digest;
         end
     end
